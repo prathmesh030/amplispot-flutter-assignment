@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 class GenericHelpers {
@@ -56,5 +57,24 @@ class GenericHelpers {
         100;
 
     return posVal;
+  }
+
+ static void showFlushBar({
+    required BuildContext context,
+    required String msg,
+    bool isFailure = false,
+  }) {
+    Flushbar(
+      message: msg,
+      icon: Icon(
+        isFailure ? Icons.warning : Icons.check_circle,
+        size: 28.0,
+        color: isFailure ? Colors.red : Colors.green,
+      ),
+      duration: const Duration(
+        seconds: 2,
+      ),
+      leftBarIndicatorColor: isFailure ? Colors.red : Colors.green,
+    ).show(context);
   }
 }

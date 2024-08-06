@@ -1,16 +1,24 @@
 import 'dart:convert';
 
+import '../../domain/task/task_repository.dart';
+import '../dtos/task_data_dto/task_data_dto.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/task_data_dto/task_data_dto.dart';
+class ITaskRepository extends TaskRepository {
+  final String apiUrl;
 
-class HttpController {
-  static Future<TaskDataDto?> getJsonData() async {
+  ITaskRepository({
+    required this.apiUrl,
+  });
+
+  @override
+  Future<TaskDataDto?> getTaskData() async {
     TaskDataDto? taskDataDto;
 
     try {
       final response = await http.get(Uri.parse(
-          'https://assignment-amplispot.s3.eu-north-1.amazonaws.com/flutter_task.json'));
+        apiUrl,
+      ));
 
       if (response.statusCode == 200 && response.body.isNotEmpty) {
         Map<String, dynamic> resData = jsonDecode(response.body);
