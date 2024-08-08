@@ -68,195 +68,245 @@ class HomeConsumer extends StatelessWidget {
                   ? const Center(child: Text('No Display Image!'))
                   : ModalProgressHUD(
                       inAsyncCall: state.isDownloading,
-                      child: Column(
-                        children: <Widget>[
-                          WidgetsToImage(
-                            controller: state.widgetsToImageController,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Image.network(
-                                  state.taskDataDto!.media,
-                                  width: MediaQuery.of(context).size.width,
-                                ),
-                                if (state.isToggleCustomize)
-                                  Positioned(
-                                    top: GenericHelpers.getDynamicViewPos(
-                                      context,
-                                      val: state.taskDataDto!
-                                          .customizationSettings[0].configs.top
-                                          .toDouble(),
-                                    ),
-                                    left: GenericHelpers.getDynamicViewPos(
-                                      context,
-                                      isWidth: true,
-                                      val: state.taskDataDto!
-                                          .customizationSettings[0].configs.left
-                                          .toDouble(),
-                                    ),
-                                    child: Image.network(
-                                      state.taskDataDto!
-                                          .customizationSettings[0].value,
-                                      height: state
-                                          .taskDataDto!
-                                          .customizationSettings[0]
-                                          .configs
-                                          .dimensions!
-                                          .height
-                                          .toDouble(),
-                                      width: state
-                                          .taskDataDto!
-                                          .customizationSettings[0]
-                                          .configs
-                                          .dimensions!
-                                          .width
-                                          .toDouble(),
-                                    ),
-                                  ),
-                                if (state.isToggleCustomize)
-                                  Positioned(
-                                    top: GenericHelpers.getDynamicViewPos(
-                                      context,
-                                      val: state.taskDataDto!
-                                          .customizationSettings[1].configs.top
-                                          .toDouble(),
-                                    ),
-                                    left: GenericHelpers.getDynamicViewPos(
-                                      context,
-                                      val: state.taskDataDto!
-                                          .customizationSettings[1].configs.left
-                                          .toDouble(),
-                                      isWidth: true,
-                                    ),
-                                    child: Text(
-                                      state.taskDataDto!
-                                          .customizationSettings[1].value,
-                                      textAlign: GenericHelpers.getTextAlign(
-                                          state
-                                              .taskDataDto!
-                                              .customizationSettings[1]
-                                              .configs
-                                              .allignment
-                                              .value),
-                                      style: TextStyle(
-                                        color: GenericHelpers.getFontColor(state
-                                            .taskDataDto!
-                                            .customizationSettings[1]
-                                            .configs
-                                            .fontColor),
-                                        fontWeight:
-                                            GenericHelpers.getFontWeight(state
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            WidgetsToImage(
+                              controller: state.widgetsToImageController,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                  image: NetworkImage(state.taskDataDto!.media),
+                                )),
+                                child: LayoutBuilder(builder: (context, ss) {
+                                  ss = ss.copyWith(
+                                    maxHeight: ss.maxHeight <= 1200
+                                        ? ss.maxHeight
+                                        : 1200,
+                                    maxWidth: ss.maxWidth <= 1200
+                                        ? ss.maxWidth
+                                        : 1200,
+                                  );
+
+                                  return Stack(
+                                    children: [
+                                      const SizedBox(),
+                                      if (state.isToggleCustomize)
+                                        Positioned(
+                                          top: GenericHelpers.getPosOnStack(
+                                            screenSize: ss.maxHeight,
+                                            currentPosVal: state
+                                                .taskDataDto!
+                                                .customizationSettings[0]
+                                                .configs
+                                                .top
+                                                .toDouble(),
+                                          ),
+                                          left: GenericHelpers.getPosOnStack(
+                                            screenSize: ss.maxHeight,
+                                            currentPosVal: state
+                                                .taskDataDto!
+                                                .customizationSettings[0]
+                                                .configs
+                                                .left
+                                                .toDouble(),
+                                          ),
+                                          child: Image.network(
+                                            state.taskDataDto!
+                                                .customizationSettings[0].value,
+                                            height:
+                                                GenericHelpers.getPosOnStack(
+                                              screenSize: ss.maxHeight,
+                                              currentPosVal: state
+                                                  .taskDataDto!
+                                                  .customizationSettings[0]
+                                                  .configs
+                                                  .dimensions!
+                                                  .height
+                                                  .toDouble(),
+                                            ),
+                                            width: GenericHelpers.getPosOnStack(
+                                              screenSize: ss.maxHeight,
+                                              currentPosVal: state
+                                                  .taskDataDto!
+                                                  .customizationSettings[0]
+                                                  .configs
+                                                  .dimensions!
+                                                  .height
+                                                  .toDouble(),
+                                            ),
+                                          ),
+                                        ),
+                                      if (state.isToggleCustomize)
+                                        Positioned(
+                                          top: GenericHelpers.getPosOnStack(
+                                            screenSize: ss.maxHeight,
+                                            currentPosVal: state
                                                 .taskDataDto!
                                                 .customizationSettings[1]
                                                 .configs
-                                                .fontWeight
-                                                .value),
-                                        fontFamily: state
-                                            .taskDataDto!
-                                            .customizationSettings[2]
-                                            .configs
-                                            .fontStyle
-                                            .name,
-                                        fontSize: state
-                                            .taskDataDto!
-                                            .customizationSettings[1]
-                                            .configs
-                                            .fontSize
-                                            .toDouble(),
-                                      ),
-                                    ),
-                                  ),
-                                if (state.isToggleCustomize)
-                                  Positioned(
-                                    top: GenericHelpers.getDynamicViewPos(
-                                      context,
-                                      val: state.taskDataDto!
-                                          .customizationSettings[2].configs.top
-                                          .toDouble(),
-                                    ),
-                                    left: GenericHelpers.getDynamicViewPos(
-                                      context,
-                                      val: state.taskDataDto!
-                                          .customizationSettings[2].configs.left
-                                          .toDouble(),
-                                      isWidth: true,
-                                    ),
-                                    child: Text(
-                                      state.taskDataDto!
-                                          .customizationSettings[2].value,
-                                      textAlign: GenericHelpers.getTextAlign(
-                                          state
-                                              .taskDataDto!
-                                              .customizationSettings[2]
-                                              .configs
-                                              .allignment
-                                              .value),
-                                      style: TextStyle(
-                                        color: GenericHelpers.getFontColor(state
-                                            .taskDataDto!
-                                            .customizationSettings[2]
-                                            .configs
-                                            .fontColor),
-                                        fontWeight:
-                                            GenericHelpers.getFontWeight(state
+                                                .top
+                                                .toDouble(),
+                                          ),
+                                          left: GenericHelpers.getPosOnStack(
+                                            screenSize: ss.maxHeight,
+                                            currentPosVal: state
+                                                .taskDataDto!
+                                                .customizationSettings[1]
+                                                .configs
+                                                .left
+                                                .toDouble(),
+                                          ),
+                                          child: Text(
+                                            state.taskDataDto!
+                                                .customizationSettings[1].value,
+                                            textAlign: GenericHelpers
+                                                .getTextAlign(state
+                                                    .taskDataDto!
+                                                    .customizationSettings[1]
+                                                    .configs
+                                                    .allignment
+                                                    .value),
+                                            style: TextStyle(
+                                              color: GenericHelpers
+                                                  .getFontColor(state
+                                                      .taskDataDto!
+                                                      .customizationSettings[1]
+                                                      .configs
+                                                      .fontColor),
+                                              fontWeight: GenericHelpers
+                                                  .getFontWeight(state
+                                                      .taskDataDto!
+                                                      .customizationSettings[1]
+                                                      .configs
+                                                      .fontWeight
+                                                      .value),
+                                              fontFamily: state
+                                                  .taskDataDto!
+                                                  .customizationSettings[2]
+                                                  .configs
+                                                  .fontStyle
+                                                  .name,
+                                              fontSize:
+                                                  GenericHelpers.getPosOnStack(
+                                                      screenSize: ss.maxHeight,
+                                                      currentPosVal: state
+                                                          .taskDataDto!
+                                                          .customizationSettings[
+                                                              1]
+                                                          .configs
+                                                          .fontSize
+                                                          .toDouble()),
+                                            ),
+                                          ),
+                                        ),
+                                      if (state.isToggleCustomize)
+                                        Positioned(
+                                          top: GenericHelpers.getPosOnStack(
+                                            screenSize: ss.maxHeight,
+                                            currentPosVal: state
                                                 .taskDataDto!
                                                 .customizationSettings[2]
                                                 .configs
-                                                .fontWeight
-                                                .value),
-                                        fontFamily: state
-                                            .taskDataDto!
-                                            .customizationSettings[2]
-                                            .configs
-                                            .fontStyle
-                                            .name,
-                                        fontSize: state
-                                            .taskDataDto!
-                                            .customizationSettings[2]
-                                            .configs
-                                            .fontSize
-                                            .toDouble(),
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 50,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text('Click on  '),
-                              const Icon(
-                                Icons.edit,
-                                size: 20,
+                                                .top
+                                                .toDouble(),
+                                          ),
+                                          left: GenericHelpers.getPosOnStack(
+                                            screenSize: ss.maxHeight,
+                                            currentPosVal: state
+                                                .taskDataDto!
+                                                .customizationSettings[2]
+                                                .configs
+                                                .left
+                                                .toDouble(),
+                                          ),
+                                          child: Text(
+                                            state.taskDataDto!
+                                                .customizationSettings[2].value,
+                                            textAlign: GenericHelpers
+                                                .getTextAlign(state
+                                                    .taskDataDto!
+                                                    .customizationSettings[2]
+                                                    .configs
+                                                    .allignment
+                                                    .value),
+                                            style: TextStyle(
+                                              color: GenericHelpers
+                                                  .getFontColor(state
+                                                      .taskDataDto!
+                                                      .customizationSettings[2]
+                                                      .configs
+                                                      .fontColor),
+                                              fontWeight: GenericHelpers
+                                                  .getFontWeight(state
+                                                      .taskDataDto!
+                                                      .customizationSettings[2]
+                                                      .configs
+                                                      .fontWeight
+                                                      .value),
+                                              fontFamily: state
+                                                  .taskDataDto!
+                                                  .customizationSettings[2]
+                                                  .configs
+                                                  .fontStyle
+                                                  .name,
+                                              fontSize:
+                                                  GenericHelpers.getPosOnStack(
+                                                screenSize: ss.maxHeight,
+                                                currentPosVal: state
+                                                    .taskDataDto!
+                                                    .customizationSettings[2]
+                                                    .configs
+                                                    .fontSize
+                                                    .toDouble(),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  );
+                                }),
                               ),
-                              Text(state.isToggleCustomize
-                                  ? '  to undo customization'
-                                  : '  to customize Image'),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          if (state.isToggleCustomize)
-                            const Row(
+                            ),
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            if(!state.isLoading)
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('Click on  '),
-                                Icon(
-                                  Icons.download,
-                                  size: 25,
+                                const Text('Click on  '),
+                                const Icon(
+                                  Icons.edit,
+                                  size: 20,
                                 ),
-                                Text('  to download image'),
+                                Text(state.isToggleCustomize
+                                    ? '  to undo customization'
+                                    : '  to customize Image'),
                               ],
                             ),
-                          const Spacer(),
-                        ],
-                      ),
-                    ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            if (state.isToggleCustomize)
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Click on  '),
+                                  Icon(
+                                    Icons.download,
+                                    size: 25,
+                                  ),
+                                  Text('  to download image'),
+                                ],
+                              ),
+                          ],
+                        ),
+                      )),
           floatingActionButtonLocation: state.taskDataDto == null
               ? null
               : FloatingActionButtonLocation.endFloat,

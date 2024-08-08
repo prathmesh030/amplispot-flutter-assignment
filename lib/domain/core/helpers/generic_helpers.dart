@@ -44,22 +44,7 @@ class GenericHelpers {
     return textAlign;
   }
 
-  static double getDynamicViewPos(
-    BuildContext context, {
-    required double val,
-    bool isWidth = false,
-  }) {
-    double posVal = 0;
-    posVal = (val /
-            (isWidth
-                ? MediaQuery.of(context).size.width
-                : MediaQuery.of(context).size.height)) *
-        100;
-
-    return posVal;
-  }
-
- static void showFlushBar({
+  static void showFlushBar({
     required BuildContext context,
     required String msg,
     bool isFailure = false,
@@ -76,5 +61,18 @@ class GenericHelpers {
       ),
       leftBarIndicatorColor: isFailure ? Colors.red : Colors.green,
     ).show(context);
+  }
+
+  static double? getPosOnStack({
+    required double screenSize,
+    required double currentPosVal,
+  }) {
+    const maxWidthImg = 1200;
+
+    final posPer = (currentPosVal / maxWidthImg) * 100;
+
+    double posActualVal = (posPer / 100) * screenSize;
+
+    return posActualVal;
   }
 }
